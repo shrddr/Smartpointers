@@ -7,13 +7,13 @@
 int main()
 {
 	// scoped_ptr deletes himself upon reaching the end of scope
-	// it can't be passed to/from functions because, well, end of scope
+	// it can't be passed to/from functions
 
 	scoped_ptr sp = new Complex(0, 1);	
 	sp->print();
 
 	// auto_ptr improves that by allowing copy constructor and assignment;
-	// however, the right side argument is lost in order to keepreference count == 1
+	// however, the right side argument is lost in order to keep a single reference
 
 	auto_ptr ap1 = new Complex(1, 1);
 	auto_ptr ap2 = ap1;						// ap2 -> (1, 1); ap1 -> null
@@ -24,7 +24,8 @@ int main()
 	ap4 = ap3;								// ap4 -> (1, 3); ap3 -> null
 	ap4->print();
 	
-	// shared_ptr keeps count of references
+	// shared_ptr keeps count of references. this way several shared_ptrs can
+	// own the same object, but only delete it once
 
 	shared_ptr sp1 = new Complex(2, 1);
 	shared_ptr sp2 = sp1;					// same object referenced twice
