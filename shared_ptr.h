@@ -2,49 +2,48 @@
 #include "Complex.h"
 
 template <class T>
-class Storage
-{
-private:
-	int count;
-public:
-	T* pObj;
-
-	Storage(T* pObject)
-	{
-		pObj = pObject;
-		count = 1;
-	}
-
-	~Storage()
-	{
-		if (pObj) delete pObj;
-	}
-
-	void addRef()
-	{
-		count++;
-	}
-
-	void remRef()
-	{
-		count--;
-	}
-
-	bool noRefs() 
-	{
-		return (count == 0);
-	}
-};
-
-template <class T>
 class shared_ptr
 {
 private:
-	Storage<T>* storage;
+	class Storage
+	{
+	private:
+		int count;
+	public:
+		T* pObj;
+
+		Storage(T* pObject)
+		{
+			pObj = pObject;
+			count = 1;
+		}
+
+		~Storage()
+		{
+			if (pObj) delete pObj;
+		}
+
+		void addRef()
+		{
+			count++;
+		}
+
+		void remRef()
+		{
+			count--;
+		}
+
+		bool noRefs()
+		{
+			return (count == 0);
+		}
+	};
+
+	Storage* storage;
 public:
 	shared_ptr(T* pObject)
 	{
-		storage = new Storage<T>(pObject);
+		storage = new Storage(pObject);
 	}
 
 	~shared_ptr()
