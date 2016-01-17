@@ -7,15 +7,31 @@
 // can be set to null safely
 // simple access syntax
 
+template <class T>
 class scoped_ptr
 {
 private:
-	Complex* pObj;
+	T* pObj;
 	scoped_ptr(const scoped_ptr& p);
 	scoped_ptr& operator= (const scoped_ptr& p);
 public:
-	scoped_ptr(Complex* pObject);
-	~scoped_ptr();
-	Complex* operator->();
-	Complex& operator*();	// by reference is faster
+	scoped_ptr(T* pObject) 
+	{
+		pObj = pObject; 
+	}
+
+	~scoped_ptr()
+	{
+		if (pObj) delete pObj;
+	}
+
+	T* operator->()
+	{
+		return pObj;
+	}
+
+	T& operator*()
+	{
+		return *pObj;
+	}
 };
